@@ -20,7 +20,7 @@ iftttnotify_main() {
   key=
   localmail=0
 
-	while getopts e:hk:m opt
+	while getopts e:hk:mr opt
 	do
 		case $opt in
       e|k) event="$OPTARG" ;;
