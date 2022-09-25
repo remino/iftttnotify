@@ -2,7 +2,7 @@ iftttnotify
 ===========
 
 ```
-iftttnotify 1.0.0
+iftttnotify 1.0.1
 
 USAGE: iftttnotify [<options>] <val1> [<val2> [<val3>]]
 

@@ -2,7 +2,7 @@
 # iftttnotify
 # Send notification to IFTTT Webhook using Web request
 
-VERSION='1.0.0'
+VERSION='1.0.1'
 
 iftttnotify_main() {
 	trap _exit INT TERM
