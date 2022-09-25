@@ -54,7 +54,7 @@ iftttnotify_main() {
 
 iftttnotify_help() {
 cat <<USAGE
-Usage: $scriptname [options] "val1" ["val2"] ["val3"]
+USAGE: $scriptname [<options>] <val1> [<val2> [<val3>]]
 
 Send notification via IFTTT Webhooks with up to three values.
 
@@ -62,7 +62,7 @@ The IFTTT Webhooks key must be set in IFTTT_WEBHOOKS_KEY
 or saved in ~/.ifttt-webhooks-key:
 https://ifttt.com/services/maker_webhooks/settings
 
-Available options:
+OPTIONS:
 
 	-e event  Set IFTTT trigger event. Defaults to "notify".
 	-g        Print set IFTTT Webhooks key.
