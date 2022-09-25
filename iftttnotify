@@ -2,6 +2,8 @@
 # iftttnotify
 # Send notification to IFTTT Webhook using Web request
 
+VERSION='0.9.0'
+
 iftttnotify_main() {
 	trap _exit INT TERM
 
@@ -19,14 +21,15 @@ iftttnotify_main() {
 	key=
 	localmail=0
 
-	while getopts e:ghk:mr opt
+	while getopts e:ghk:mrv opt
 	do
 		case $opt in
 			e|k) event="$OPTARG" ;;
 			g) cmd="get_key" ;;
-			h) iftttnotify_help && return ;;
+			h) cmd="help" ;;
 			m) localmail=1 ;;
 			r) event="rich_notify" ;;
+			v) cmd="version" ;;
 			*) _invalid_opt ;;
 		esac
 	done
@@ -44,8 +47,7 @@ iftttnotify_main() {
 	fi
 
 	case "$cmd" in
-		get_key|send) "iftttnotify_$cmd" "$@" ;;
-		help|usage) iftttnotify_help ;;
+		get_key|help|send|version) "iftttnotify_$cmd" "$@" ;;
 		*) _invalid_cmd ;;
 	esac
 
@@ -54,6 +56,8 @@ iftttnotify_main() {
 
 iftttnotify_help() {
 cat <<USAGE
+$scriptname $VERSION
+
 USAGE: $scriptname [<options>] <val1> [<val2> [<val3>]]
 
 Send notification via IFTTT Webhooks with up to three values.
@@ -89,6 +93,10 @@ iftttnotify_send() {
 
 	echo "$res"
 	echo "$res" | grep '^Congratulations' > /dev/null 2>&1
+}
+
+iftttnotify_version() {
+	echo "$scriptname $VERSION"
 }
 
 _echo() {
