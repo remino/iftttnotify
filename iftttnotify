@@ -11,16 +11,15 @@ iftttnotify_main() {
 
 	_require realpath
 
-	scriptpath="` realpath "$0" `"
-	scriptname="` basename "$scriptpath" `"
-	scriptdir="` dirname "$scriptpath" `"
+	scriptpath="$( realpath "$0" )"
+	scriptname="$( basename "$scriptpath" )"
 
   cmd=
   event="notify"
   key=
   localmail=0
 
-	while getopts e:hk:mr opt
+	while getopts e:ghk:mr opt
 	do
 		case $opt in
       e|k) event="$OPTARG" ;;
@@ -32,7 +31,7 @@ iftttnotify_main() {
 		esac
 	done
 
-	shift ` expr $OPTIND - 1 `
+	shift "$(( OPTIND - 1 ))"
 
 	if [ -z "$cmd" ]
 	then
@@ -83,13 +82,13 @@ iftttnotify_send() {
   _load_key
 
 	res=
-	now="` date +'%Y-%m-%dT%H:%M:%S%z' `"
-	res="` _req "$event" "$@" `"
+	now="$( date +'%Y-%m-%dT%H:%M:%S%z' )"
+	res="$( _req "$event" "$@" )"
 
 	[ $localmail -ne 0 ] && _mail "$now" "$event" "$@"
 
 	echo "$res"
-	echo "$res" | grep '^Congratulations' 2>&1 > /dev/null
+	echo "$res" | grep '^Congratulations' > /dev/null 2>&1
 }
 
 _echo() {
@@ -110,7 +109,6 @@ _exit() {
 }
 
 _fatal() {
-	local exit_code
 	exit_code="$1"
 	shift
 	_error "$@"
@@ -145,7 +143,7 @@ _invalid_opt() {
 
 _load_key() {
   key="$IFTTT_WEBHOOKS_KEY"
-  [ -z "$key" ] && key="` _get_key_from_file `"
+  [ -z "$key" ] && key="$( _get_key_from_file )"
   _require_key || return $?
 }
 
@@ -174,9 +172,9 @@ _req() {
 	curl -s \
 		-X POST \
 		-H "Content-Type: application/json" \
-		-d "{\"value1\":\"` _escape "$2" `\",\
-			\"value2\":\"` _escape "$3" `\",\
-			\"value3\":\"` _escape "$4" `\"}" \
+		-d "{\"value1\":\"$( _escape "$2" )\",\
+			\"value2\":\"$( _escape "$3" )\",\
+			\"value3\":\"$( _escape "$4" )\"}" \
 		"https://maker.ifttt.com/trigger/$1/with/key/$key"
 }
 
@@ -185,10 +183,10 @@ _require() {
 
 	for bin in "$@"
 	do
-		if ! which "$bin" 2>&1 > /dev/null
+		if ! which "$bin" > /dev/null 2>&1
 		then
 			missing_bin=1
-			_error "Required: $app"
+			_error "Required: $bin"
 		fi
 	done
 
