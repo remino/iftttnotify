@@ -7,26 +7,26 @@ iftttnotify_main() {
 
 	e_args=16
 	e_missing_app=17
-  e_no_key=18
+	e_no_key=18
 
 	_require realpath
 
 	scriptpath="$( realpath "$0" )"
 	scriptname="$( basename "$scriptpath" )"
 
-  cmd=
-  event="notify"
-  key=
-  localmail=0
+	cmd=
+	event="notify"
+	key=
+	localmail=0
 
 	while getopts e:ghk:mr opt
 	do
 		case $opt in
-      e|k) event="$OPTARG" ;;
-      g) cmd="get_key" ;;
+			e|k) event="$OPTARG" ;;
+			g) cmd="get_key" ;;
 			h) iftttnotify_help && return ;;
-      m) localmail=1 ;;
-      r) event="rich_notify" ;;
+			m) localmail=1 ;;
+			r) event="rich_notify" ;;
 			*) _invalid_opt ;;
 		esac
 	done
@@ -74,12 +74,12 @@ USAGE
 }
 
 iftttnotify_get_key() {
-  _load_key
-  _echo "$key"
+	_load_key
+	_echo "$key"
 }
 
 iftttnotify_send() {
-  _load_key
+	_load_key
 
 	res=
 	now="$( date +'%Y-%m-%dT%H:%M:%S%z' )"
@@ -116,15 +116,15 @@ _fatal() {
 }
 
 _get_key_from_file() {
-  for file in \
-    $HOME/.ifttt-webhooks-key \
-    $HOME/.config/ifttt-webhooks-key \
-    /etc/ifttt-webhooks-key
-  do
-    [ -f "$file" ] || continue
-    cat "$file"
-    break
-  done
+	for file in \
+		$HOME/.ifttt-webhooks-key \
+		$HOME/.config/ifttt-webhooks-key \
+		/etc/ifttt-webhooks-key
+	do
+		[ -f "$file" ] || continue
+		cat "$file"
+		break
+	done
 }
 
 _invalid_cmd() {
@@ -142,9 +142,9 @@ _invalid_opt() {
 }
 
 _load_key() {
-  key="$IFTTT_WEBHOOKS_KEY"
-  [ -z "$key" ] && key="$( _get_key_from_file )"
-  _require_key || return $?
+	key="$IFTTT_WEBHOOKS_KEY"
+	[ -z "$key" ] && key="$( _get_key_from_file )"
+	_require_key || return $?
 }
 
 _mail() {
